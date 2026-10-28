@@ -22,8 +22,9 @@ def jukes_cantor(reference_sequence: str, distant_sequence: str) -> float:
 
     """
 
-    # keeping only the positions where neither sequence has a gap (indels are ignored)
-    pairs = [(r, d) for r, d in zip(reference_sequence, distant_sequence) if r != "-" and d != "-"]
+    # keeping only the positions where both sequences have a real base (skips gaps "-" and unknown "N")
+    valid = set("ACGT")
+    pairs = [(r, d) for r, d in zip(reference_sequence, distant_sequence) if r in valid and d in valid]
     length = len(pairs)
     mismatches = sum(1 for r, d in pairs if r != d)
 
